@@ -1,7 +1,7 @@
 import "./ProductItem.css"
 const ProductItem = () => {
   return (
-    <li className="product-item glide__slide glide__slide--clone">
+    <div className="product-item glide__slide glide__slide--clone">
     <div className="product-image">
       <a href="#">
         <img
@@ -57,7 +57,7 @@ const ProductItem = () => {
         </a>
       </div>
     </div>
-  </li>
+  </div>
   )
 }
 
