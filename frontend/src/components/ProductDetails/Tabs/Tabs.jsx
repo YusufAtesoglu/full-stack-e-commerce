@@ -8,7 +8,6 @@ const handleTabClick = (e, tab) => {
   e.preventDefault();
   setActiveTab(tab);
 };
-
   return (
     <div className="single-tabs">
     <ul className="tab-list">

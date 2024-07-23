@@ -1,16 +1,22 @@
+import { useContext } from "react";
 import "./ProductItem.css"
-const ProductItem = () => {
+import { CartContext } from "../../context/CartProvider";
+
+const ProductItem = ({productItem}) => {
+
+const {addToCart}=useContext(CartContext);
+
   return (
     <div className="product-item glide__slide glide__slide--clone">
     <div className="product-image">
       <a href="#">
         <img
-          src="img/products/product1/1.png"
+          src={productItem.img.singleImage}
           alt=""
           className="img1"
         />
         <img
-          src="img/products/product1/2.png"
+          src={productItem.img.thumbs[1]}
           alt=""
           className="img2"
         />
@@ -18,7 +24,7 @@ const ProductItem = () => {
     </div>
     <div className="product-info">
       <a href="$" className="product-title">
-        Analogue Resin Strap
+     {productItem.name}
       </a>
       <ul className="product-star">
         <li>
@@ -38,13 +44,13 @@ const ProductItem = () => {
         </li>
       </ul>
       <div className="product-prices">
-        <strong className="new-price">$108.00</strong>
-        <span className="old-price">$165.00</span>
+        <strong className="new-price">${productItem.price.newPrice.toFixed(2)}</strong>
+        <span className="old-price">${productItem.price.oldPrice.toFixed(2)}</span>
       </div>
-      <span className="product-discount">-17%</span>
+      <span className="product-discount">-{productItem.discount}%</span>
       <div className="product-links">
-        <button>
-          <i className="bi bi-basket-fill"></i>
+        <button className="add-to-cart" onClick={()=>addToCart(productItem)}>
+          <i className="bi bi-basket-fill" ></i>
         </button>
         <button>
           <i className="bi bi-heart-fill"></i>

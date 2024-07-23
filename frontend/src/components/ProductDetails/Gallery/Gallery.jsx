@@ -25,8 +25,6 @@ const Gallery = () => {
  img: productsData[0].img.singleImage,
  imgIndex:0,
   })
-  
- console.log(activeImg.imgIndex)
   const sliderSettings = {
     dots: false,
     infinite: true,
