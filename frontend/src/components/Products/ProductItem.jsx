@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import "./ProductItem.css"
 import { CartContext } from "../../context/CartProvider";
-
+import { Link } from "react-router-dom";
 const ProductItem = ({productItem}) => {
+const {cartItems,addToCart}=useContext(CartContext);
 
-const {addToCart}=useContext(CartContext);
-
+const filteredCart=cartItems.find((cartItem)=>cartItem.id===productItem.id)
   return (
     <div className="product-item glide__slide glide__slide--clone">
     <div className="product-image">
@@ -49,15 +49,15 @@ const {addToCart}=useContext(CartContext);
       </div>
       <span className="product-discount">-{productItem.discount}%</span>
       <div className="product-links">
-        <button className="add-to-cart" onClick={()=>addToCart(productItem)}>
+        <button className="add-to-cart" onClick={()=>addToCart(productItem)}  disabled={filteredCart}>
           <i className="bi bi-basket-fill" ></i>
         </button>
         <button>
           <i className="bi bi-heart-fill"></i>
         </button>
-        <a href="#">
-          <i className="bi bi-eye-fill"></i>
-        </a>
+        <Link to={`product/${productItem.id}`}  >
+        <i className="bi bi-eye-fill"></i>
+        </Link>
         <a href="#">
           <i className="bi bi-share-fill"></i>
         </a>

@@ -1,25 +1,42 @@
-import { createContext } from "react";
-
+import { createContext, useEffect } from "react";
 import { useState } from "react";
-export const CartContext=createContext();
+export const CartContext = createContext();
 
-const CartProvider=({children})=>{
-    const [cartItems, setCartItems] = useState([]);
+const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState(
+    localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : []
+  );
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
-    console.log("cartItems:",cartItems)
-    const addToCart=(cartItem)=>{
-        //setCartItems([...cartItems,product]); 1.yol
-        setCartItems((prevCart)=> [...prevCart,cartItem]);
-          }
-    return(
-        <CartContext.Provider 
-        value={{
-            addToCart,
-            cartItems,
-        }}>
-        
-        {children}
-        </CartContext.Provider>
-    )
-}
+  const addToCart = (cartItem) => {
+    //setCartItems([...cartItems,product]); 1.yol
+    setCartItems((prevCart) => [...prevCart,
+        {...cartItem,
+            quantity:cartItem.quantity ? cartItem.quantity : 1,
+
+        }, ]);
+  };
+
+  const removeFromCart = (itemId) => {
+    const filteredCartItems = cartItems.filter((cartItem) => {
+      return cartItem.id !== itemId;
+    });
+    setCartItems(filteredCartItems);
+  };
+  return (
+    <CartContext.Provider
+      value={{
+        addToCart,
+        cartItems,
+        removeFromCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
 export default CartProvider;
