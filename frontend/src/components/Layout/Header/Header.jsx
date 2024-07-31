@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { CartContext } from "../../../context/CartProvider";
 const Header = ({setIsSearchShow}) => {
   const {cartItems}=useContext(CartContext);
-
+  const user = localStorage.getItem("user");
   const {pathname}=useLocation();
  
   return (
@@ -193,21 +193,43 @@ const Header = ({setIsSearchShow}) => {
             </div>
             <div className="header-right">
               <div className="header-right-links">
-                <Link to="/auth" className="header-account">
+                {/* eger giriş varsa icon görünmesin */}
+                {!user && ( <Link to="/auth" className="header-account">
                   <i className="bi bi-person"></i>
-                </Link>
+                </Link>) }
+               
+              
                 <button className="search-button" onClick={()=>setIsSearchShow(true)}>
                   <i className="bi bi-search"></i>
                 </button>
-                <a href="#">
+                {/* <a href="#">
                   <i className="bi bi-heart"></i>
-                </a>
+                </a> */}
                 <div className="header-cart">
                   <Link to="/cart" className="header-cart-link">
                     <i className="bi bi-bag"></i>
                     <span className="header-cart-count">{cartItems.length}</span>
                   </Link>
                 </div>
+                {user && (
+                  <button
+                    className="search-button"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Çıkış yapmak istediğinize emin misiniz?"
+                        )
+                      ) {
+                        {
+                          localStorage.removeItem("user");
+                          window.location.href = "/";
+                        }
+                      }
+                    }}
+                  >
+                    <i className="bi bi-box-arrow-right"></i>
+                  </button>
+                )}
               </div>
             </div>
           </div>
