@@ -1,7 +1,7 @@
-import { useState } from "react";
+import {useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
-import productsData from "../../data.json";
 import Slider from "react-slick";
+import { message } from "antd";
 import "./Products.css";
 function NextBtn({ onClick }) {
   return (
@@ -18,7 +18,27 @@ function PrevBtn({ onClick }) {
   );
 }
 const Products = () => {
-  const [products] = useState(productsData);
+  const [products,setProducts] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api/products`);
+
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          message.error("Veri getirme başarısız.");
+        }
+      } catch (error) {
+        console.log("Veri hatası:", error);
+      }
+    };
+    fetchProducts();
+  }, [apiUrl]);
+
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -32,9 +52,14 @@ const Products = () => {
       {
         breakpoint:992,
           settings:{
-            slidesToShow:2
+            slidesToShow:4
           }
-        },
+        }, {
+          breakpoint:620,
+            settings:{
+              slidesToShow:2
+            }
+          },
         {
           breakpoint:520,
             settings:{
@@ -55,7 +80,7 @@ const Products = () => {
            
               <Slider {...sliderSettings}>
                 {products.map((product) => (
-                  <ProductItem productItem={product} key={product.id} />
+                   <ProductItem productItem={product} key={product._id} />
                 ))}
               </Slider>
             

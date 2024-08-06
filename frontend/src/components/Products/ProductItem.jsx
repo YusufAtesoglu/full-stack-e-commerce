@@ -4,22 +4,21 @@ import { CartContext } from "../../context/CartProvider";
 import { Link } from "react-router-dom";
 const ProductItem = ({productItem}) => {
 const {cartItems,addToCart}=useContext(CartContext);
+const originalPrice = productItem.price.current;
+const discountPercentage = productItem.price.discount;
 
-const filteredCart=cartItems.find((cartItem)=>cartItem.id===productItem.id)
+// İndirimli fiyatı hesaplama
+const discountedPrice =
+  originalPrice - (originalPrice * discountPercentage) / 100;
+
+const filteredCart=cartItems.find(
+  (cartItem)=>cartItem._id===productItem._id)
   return (
     <div className="product-item glide__slide glide__slide--clone">
     <div className="product-image">
       <a href="#">
-        <img
-          src={productItem.img.singleImage}
-          alt=""
-          className="img1"
-        />
-        <img
-          src={productItem.img.thumbs[1]}
-          alt=""
-          className="img2"
-        />
+      <img src={productItem.img[0]} alt="" className="img1" />
+      <img src={productItem.img[1]} alt="" className="img2" />
       </a>
     </div>
     <div className="product-info">
@@ -44,18 +43,23 @@ const filteredCart=cartItems.find((cartItem)=>cartItem.id===productItem.id)
         </li>
       </ul>
       <div className="product-prices">
-        <strong className="new-price">${productItem.price.newPrice.toFixed(2)}</strong>
-        <span className="old-price">${productItem.price.oldPrice.toFixed(2)}</span>
+      <strong className="new-price">${discountedPrice.toFixed(2)}</strong>
+      <span className="old-price">${originalPrice.toFixed(2)}</span>
       </div>
-      <span className="product-discount">-{productItem.discount}%</span>
+      <span className="product-discount">-{productItem.price.discount}%</span>
       <div className="product-links">
-        <button className="add-to-cart" onClick={()=>addToCart(productItem)}  disabled={filteredCart}>
+        <button className="add-to-cart" onClick={() =>
+              addToCart({
+                ...productItem,
+                price: discountedPrice,
+              })
+            }  disabled={filteredCart}>
           <i className="bi bi-basket-fill" ></i>
         </button>
         <button>
           <i className="bi bi-heart-fill"></i>
         </button>
-        <Link to={`product/${productItem.id}`}  >
+        <Link to={`product/${productItem._id}`}  >
         <i className="bi bi-eye-fill"></i>
         </Link>
         <a href="#">
