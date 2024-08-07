@@ -18,7 +18,7 @@ const CartProvider = ({ children }) => {
         {...cartItem,
             quantity:cartItem.quantity ? cartItem.quantity : 1,
 
-        }, ]);
+        }, ]);console.log(cartItem)
   };
 
   const removeFromCart = (itemId) => {
