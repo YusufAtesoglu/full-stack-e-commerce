@@ -3,7 +3,7 @@ import "./ProductDetails.css";
 import Gallery from "./Gallery/Gallery";
 import Info from "./Info/Info";
 import Tabs from "./Tabs/Tabs";
-const ProductDetails = ({singleProduct}) => {
+const ProductDetails =  ({ singleProduct, setSingleProduct }) => {
   return (
     <section className="single-product">
       <div className="container">
@@ -17,7 +17,7 @@ const ProductDetails = ({singleProduct}) => {
             </main>
           </div>
 
-         <Tabs singleProduct={singleProduct}/>
+          <Tabs singleProduct={singleProduct} setSingleProduct={setSingleProduct} />
         </div>
       </div>
     </section>
