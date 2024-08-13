@@ -27,7 +27,7 @@ const CategoryPage = () => {
       render: (_, record) => (
         <Space>
           <Button type="primary"  onClick={() => navigate(`/admin/categories/update/${record._id}`)} >
-            Düzenle
+          Güncelle
           </Button>
           <Popconfirm
             title="Kategoriyi Sil"
@@ -37,7 +37,7 @@ const CategoryPage = () => {
             onConfirm={() => deleteCategory(record._id)}
           >
             <Button type="primary" danger>
-              Delete
+           Sil
             </Button>
           </Popconfirm>
         </Space>

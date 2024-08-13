@@ -3,6 +3,7 @@ import "./Search.css";
 import propTypes from "prop-types";
 import { useState } from "react";
 import { message } from "antd";
+import { Link } from "react-router-dom";
 const Search = ({ isSearchShow, setIsSearchShow }) => {
   const [searchResults, setSearchResults] = useState(null);
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -28,6 +29,8 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
       setSearchResults(data);
     } catch (error) {
       console.log(error);
+    }finally{
+      e.target[0].value=" "
     }
   };
 
@@ -35,6 +38,7 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
     setIsSearchShow(false);
     setSearchResults(null);
   };
+  
 
   return (
     <div className={`modal-search ${isSearchShow ? "show" : ""}`}>
@@ -60,6 +64,7 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
                 searchResults?.length === 0 || !searchResults ? "flex" : "grid"
               }`,
             }}
+            
           >
             {!searchResults && (
               <b
@@ -86,7 +91,11 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
             )}
             {searchResults?.length > 0 &&
               searchResults?.map((resultItem) => (
-                <a href="#" className="result-item" key={resultItem._id}>
+                <Link onClick={handleCloseModal}
+                  to={`product/${resultItem._id}`}
+                  className="result-item"
+                  key={resultItem._id}
+                >
                   <img
                     src={resultItem.img[0]}
                     className="search-thumb"
@@ -99,7 +108,7 @@ const Search = ({ isSearchShow, setIsSearchShow }) => {
                       ${resultItem.price.current.toFixed(2)}
                     </span>
                   </div>
-                </a>
+                  </Link>
               ))}
           </div>
         </div>

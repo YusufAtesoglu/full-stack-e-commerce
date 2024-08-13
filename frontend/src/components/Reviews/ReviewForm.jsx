@@ -15,7 +15,11 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL;
   };
 
   const handleSubmit =async (e) => {
+    
     e.preventDefault();
+    if (rating === 0) {
+      return message.warning("Puan seçiniz!");
+    }
     const formData = {
       reviews: [
         ...singleProduct.reviews,
@@ -27,7 +31,7 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL;
       ],
     };
 
-    console.log(formData);
+
     try {
       const res = await fetch(`${apiUrl}/api/products/${singleProduct._id}`, {
         method: "PUT",
@@ -122,6 +126,7 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL;
           rows="10"
           onChange={(e) => setReview(e.target.value)}
           value={review}
+          required
         ></textarea>
       </div>
 

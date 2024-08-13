@@ -16,15 +16,15 @@ const filteredCart=cartItems.find(
   return (
     <div className="product-item glide__slide glide__slide--clone">
     <div className="product-image">
-      <a href="#">
+      <a href={`product/${productItem._id}`}>
       <img src={productItem.img[0]} alt="" className="img1" />
       <img src={productItem.img[1]} alt="" className="img2" />
       </a>
     </div>
     <div className="product-info">
-      <a href="$" className="product-title">
+      <Link to={`product/${productItem._id}`} className="product-title">
      {productItem.name}
-      </a>
+      </Link>
       <ul className="product-star">
         <li>
           <i className="bi bi-star-fill"></i>
